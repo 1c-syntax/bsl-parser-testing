@@ -96,8 +96,7 @@ public class TestLexer<T extends Lexer> {
       var inputStreamReader = new InputStreamReader(ubis, StandardCharsets.UTF_8)
     ) {
       ubis.skipBOM();
-      var inputTemp = CharStreams.fromReader(inputStreamReader);
-      input = new CaseChangingCharStream(inputTemp);
+      input = CharStreams.fromStream(ubis, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

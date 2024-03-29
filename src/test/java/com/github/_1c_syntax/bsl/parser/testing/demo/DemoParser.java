@@ -24,8 +24,9 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 import com.github._1c_syntax.bsl.parser.BSLParserRuleContext;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.RuleVersion;
+//import org.antlr.v4.runtime.RuleVersion;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.atn.ATN;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.Collections;
@@ -56,16 +57,21 @@ public class DemoParser extends Parser {
   }
 
   @Override
+  public ATN getATN() {
+    return null;
+  }
+
+  @Override
   public void reset() {
     // no op
   }
 
-  @RuleVersion(0)
+//  @RuleVersion(0)
   public final BSLParserRuleContext rule1() throws RecognitionException {
     return new DemoRuleContext(0, new DemoRuleContext(1), new DemoRuleContext(1), new DemoRuleContext(2));
   }
 
-  @RuleVersion(0)
+//  @RuleVersion(0)
   public final BSLParserRuleContext rule2() throws RecognitionException {
     return new DemoRuleContext(1);
   }

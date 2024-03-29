@@ -23,6 +23,7 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.atn.ATN;
 
 
 public class DemoEmptyParser extends Parser {
@@ -43,6 +44,11 @@ public class DemoEmptyParser extends Parser {
 
   @Override
   public String getGrammarFileName() {
+    return null;
+  }
+
+  @Override
+  public ATN getATN() {
     return null;
   }
 }
