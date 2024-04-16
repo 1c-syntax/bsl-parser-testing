@@ -45,8 +45,8 @@ gitVersioning.apply {
 val isSnapshot = gitVersioning.gitVersionDetails.refType != GitRefType.TAG
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.1.0")
-    implementation("com.tunnelvisionlabs", "antlr4", "4.9.0")
+    implementation("io.github.1c-syntax", "bsl-parser-core", "0.2.0")
+    implementation("org.antlr", "antlr4", "4.13.1")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
     implementation("org.assertj", "assertj-core", "3.25.0")
