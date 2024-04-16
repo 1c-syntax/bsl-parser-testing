@@ -21,7 +21,6 @@
  */
 package com.github._1c_syntax.bsl.parser.testing;
 
-import com.github._1c_syntax.bsl.parser.CaseChangingCharStream;
 import com.github._1c_syntax.bsl.parser.UnicodeBOMInputStream;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -96,8 +95,7 @@ public class TestLexer<T extends Lexer> {
       var inputStreamReader = new InputStreamReader(ubis, StandardCharsets.UTF_8)
     ) {
       ubis.skipBOM();
-      var inputTemp = CharStreams.fromReader(inputStreamReader);
-      input = new CaseChangingCharStream(inputTemp);
+      input = CharStreams.fromReader(inputStreamReader);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -23,6 +23,7 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.atn.ATN;
 
 public class DemoLexer extends Lexer {
 
@@ -42,6 +43,11 @@ public class DemoLexer extends Lexer {
 
   @Override
   public String getGrammarFileName() {
+    return null;
+  }
+
+  @Override
+  public ATN getATN() {
     return null;
   }
 }
