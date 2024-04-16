@@ -7,14 +7,16 @@ plugins {
     jacoco
     `java-library`
     signing
-    id("org.sonarqube") version "4.4.1.3373"
+    id("org.sonarqube") version "5.0.0.4638"
     id("org.cadixdev.licenser") version "0.6.1"
     id("me.qoomon.git-versioning") version "6.4.3"
-    id("io.freefair.lombok") version "8.4"
-    id("com.github.ben-manes.versions") version "0.50.0"
+    id("io.freefair.lombok") version "8.6"
+    id("io.freefair.javadoc-links") version "8.6"
+    id("io.freefair.javadoc-utf-8") version "8.6"
+    id("com.github.ben-manes.versions") version "0.51.0"
     id("me.champeau.jmh") version "0.7.2"
-    id("io.freefair.maven-central.validate-poms") version "8.4"
-    id("ru.vyarus.pom") version "2.2.2"
+    id("io.freefair.maven-central.validate-poms") version "8.6"
+    id("ru.vyarus.pom") version "3.0.0"
     id("io.codearte.nexus-staging") version "0.30.0"
 }
 
@@ -43,8 +45,8 @@ gitVersioning.apply {
 val isSnapshot = gitVersioning.gitVersionDetails.refType != GitRefType.TAG
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.1.0")
-    implementation("com.tunnelvisionlabs", "antlr4", "4.9.0")
+    implementation("io.github.1c-syntax", "bsl-parser-core", "0.2.0")
+    implementation("org.antlr", "antlr4", "4.13.1")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
     implementation("org.assertj", "assertj-core", "3.25.0")
@@ -62,6 +64,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
     withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.withType<JavaCompile> {
@@ -114,6 +117,7 @@ sonar {
 artifacts {
     archives(tasks["jar"])
     archives(tasks["sourcesJar"])
+    archives(tasks["javadocJar"])
 }
 
 signing {
