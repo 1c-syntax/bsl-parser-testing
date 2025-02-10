@@ -45,8 +45,8 @@ gitVersioning.apply {
 val isSnapshot = gitVersioning.gitVersionDetails.refType != GitRefType.TAG
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.2.0")
-    implementation("org.antlr", "antlr4", "4.13.1")
+    implementation("io.github.1c-syntax", "bsl-parser-core", "0.3.0")
+    implementation("io.github.1c-syntax", "antlr4", "0.1.1")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
     implementation("org.assertj", "assertj-core", "3.25.0")
@@ -90,7 +90,7 @@ tasks.check {
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
-        xml.outputLocation.set(File("$buildDir/reports/jacoco/test/jacoco.xml"))
+        xml.outputLocation.set(File("${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"))
     }
 }
 
@@ -110,7 +110,10 @@ sonar {
         property("sonar.projectKey", "1c-syntax_bsl-parser-testing")
         property("sonar.projectName", "BSL Parser Testing")
         property("sonar.scm.exclusions.disabled", "true")
-        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacoco.xml")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"
+        )
     }
 }
 
