@@ -7,15 +7,15 @@ plugins {
     jacoco
     `java-library`
     signing
-    id("org.sonarqube") version "5.0.0.4638"
+    id("org.sonarqube") version "6.0.1.5171"
     id("org.cadixdev.licenser") version "0.6.1"
-    id("me.qoomon.git-versioning") version "6.4.3"
-    id("io.freefair.lombok") version "8.6"
-    id("io.freefair.javadoc-links") version "8.6"
-    id("io.freefair.javadoc-utf-8") version "8.6"
-    id("com.github.ben-manes.versions") version "0.51.0"
-    id("me.champeau.jmh") version "0.7.2"
-    id("io.freefair.maven-central.validate-poms") version "8.6"
+    id("me.qoomon.git-versioning") version "6.4.4"
+    id("io.freefair.lombok") version "8.12.1"
+    id("io.freefair.javadoc-links") version "8.12.1"
+    id("io.freefair.javadoc-utf-8") version "8.12.1"
+    id("com.github.ben-manes.versions") version "0.52.0"
+    id("me.champeau.jmh") version "0.7.3"
+    id("io.freefair.maven-central.validate-poms") version "8.12.1"
     id("ru.vyarus.pom") version "3.0.0"
     id("io.codearte.nexus-staging") version "0.30.0"
 }
@@ -45,8 +45,8 @@ gitVersioning.apply {
 val isSnapshot = gitVersioning.gitVersionDetails.refType != GitRefType.TAG
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.2.0")
-    implementation("org.antlr", "antlr4", "4.13.1")
+    implementation("io.github.1c-syntax", "bsl-parser-core", "0.3.0")
+    implementation("io.github.1c-syntax", "antlr4", "0.1.1")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
     implementation("org.assertj", "assertj-core", "3.25.0")
@@ -90,7 +90,7 @@ tasks.check {
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
-        xml.outputLocation.set(File("$buildDir/reports/jacoco/test/jacoco.xml"))
+        xml.outputLocation.set(File("${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"))
     }
 }
 
@@ -110,7 +110,10 @@ sonar {
         property("sonar.projectKey", "1c-syntax_bsl-parser-testing")
         property("sonar.projectName", "BSL Parser Testing")
         property("sonar.scm.exclusions.disabled", "true")
-        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacoco.xml")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"
+        )
     }
 }
 

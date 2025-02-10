@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2024
+ * Copyright (c) 2023-2025
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -23,7 +23,6 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.atn.ATN;
 
 public class DemoLexer extends Lexer {
 
@@ -43,11 +42,6 @@ public class DemoLexer extends Lexer {
 
   @Override
   public String getGrammarFileName() {
-    return null;
-  }
-
-  @Override
-  public ATN getATN() {
     return null;
   }
 }
