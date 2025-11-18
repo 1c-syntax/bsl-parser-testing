@@ -69,8 +69,8 @@ public class TestParser<P extends Parser, L extends Lexer> {
   /**
    * Возвращает имя rule по его идентификатору (типу)
    *
-   * @param type
-   * @return
+   * @param type Тип рула
+   * @return Имя рула
    */
   public String ruleName(Integer type) {
     if (!ruleNames.isEmpty() && type < ruleNames.size()) {
@@ -94,7 +94,7 @@ public class TestParser<P extends Parser, L extends Lexer> {
   /**
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное channel
    *
-   * @param mode
+   * @param mode Режим
    * @param inputString анализируемая строка
    * @return служебный класс для замыкания
    */

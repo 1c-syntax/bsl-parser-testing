@@ -49,8 +49,7 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.3.1")
-    implementation("io.github.1c-syntax", "antlr4", "0.1.2")
+    implementation("io.github.1c-syntax", "antlr4", "0.2.0-rc.1")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
     implementation("org.assertj", "assertj-core", "3.25.0")

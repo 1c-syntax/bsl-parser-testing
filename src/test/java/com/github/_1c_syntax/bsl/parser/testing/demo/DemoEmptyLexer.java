@@ -26,7 +26,7 @@ import org.antlr.v4.runtime.Lexer;
 
 public class DemoEmptyLexer extends Lexer {
 
-  public DemoEmptyLexer(CharStream input, boolean dontUse) {
+  public DemoEmptyLexer(CharStream input) {
     super(input);
   }
 

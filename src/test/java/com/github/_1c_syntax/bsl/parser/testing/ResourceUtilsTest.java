@@ -21,7 +21,6 @@
  */
 package com.github._1c_syntax.bsl.parser.testing;
 
-import org.antlr.v4.runtime.RecognitionException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

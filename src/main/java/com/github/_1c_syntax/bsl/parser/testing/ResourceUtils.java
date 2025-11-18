@@ -36,8 +36,8 @@ public class ResourceUtils {
   /**
    * Читает файл фикстуры из тестовых ресурсов проекта
    *
-   * @param resourceName
-   * @return
+   * @param resourceName имя файла фикстуры
+   * @return Прочитанное содержимое
    */
   public String byName(@NonNull String resourceName) {
     if (resourceName.isBlank()) {
