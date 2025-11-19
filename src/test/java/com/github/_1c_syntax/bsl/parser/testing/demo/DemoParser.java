@@ -21,8 +21,8 @@
  */
 package com.github._1c_syntax.bsl.parser.testing.demo;
 
-import com.github._1c_syntax.bsl.parser.BSLParserRuleContext;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.RuleVersion;
 import org.antlr.v4.runtime.TokenStream;
@@ -61,26 +61,26 @@ public class DemoParser extends Parser {
   }
 
   @RuleVersion(0)
-  public final BSLParserRuleContext rule1() throws RecognitionException {
+  public final ParserRuleContext rule1() throws RecognitionException {
     return new DemoRuleContext(0, new DemoRuleContext(1), new DemoRuleContext(1), new DemoRuleContext(2));
   }
 
   @RuleVersion(0)
-  public final BSLParserRuleContext rule2() throws RecognitionException {
+  public final ParserRuleContext rule2() throws RecognitionException {
     return new DemoRuleContext(1);
   }
 
-  private static final class DemoRuleContext extends BSLParserRuleContext {
+  private static final class DemoRuleContext extends ParserRuleContext {
 
     private final List<ParseTree> children;
 
     DemoRuleContext(int state) {
-      super(new BSLParserRuleContext(), state);
+      super(new ParserRuleContext(), state);
       children = Collections.emptyList();
     }
 
     DemoRuleContext(int state, DemoRuleContext... children) {
-      super(new BSLParserRuleContext(), state);
+      super(new ParserRuleContext(), state);
       this.children = List.of(children);
     }
 
