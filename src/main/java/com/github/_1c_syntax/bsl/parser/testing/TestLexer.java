@@ -25,8 +25,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ConsoleErrorListener;
+import org.antlr.v4.runtime.IncrementalTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.UnicodeBOMInputStream;
@@ -71,7 +71,7 @@ public class TestLexer<T extends Lexer> {
   /**
    * Возвращает список токенов в переданной строке
    *
-   * @param mode Режим
+   * @param mode        Режим
    * @param inputString Входная строка
    * @return Токены в строке
    */
@@ -82,11 +82,11 @@ public class TestLexer<T extends Lexer> {
   /**
    * Возвращает токены переданной строки
    *
-   * @param mode Режим
+   * @param mode        Режим
    * @param inputString Входная строка
    * @return Токены в строке
    */
-  public CommonTokenStream getTokensStream(int mode, String inputString) {
+  public IncrementalTokenStream getTokensStream(int mode, String inputString) {
     CharStream input;
 
     try (
@@ -104,7 +104,7 @@ public class TestLexer<T extends Lexer> {
     lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
     lexer.pushMode(mode);
 
-    var tempTokenStream = new CommonTokenStream(lexer);
+    var tempTokenStream = new IncrementalTokenStream(lexer);
     tempTokenStream.fill();
 
     return tempTokenStream;
@@ -147,7 +147,7 @@ public class TestLexer<T extends Lexer> {
   /**
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное channel
    *
-   * @param mode Режим
+   * @param mode        Режим
    * @param inputString анализируемая строка
    * @return служебный класс для замыкания
    */
@@ -158,7 +158,7 @@ public class TestLexer<T extends Lexer> {
   /**
    * Настраивает и запоминает тестируемый контекст
    *
-   * @param mode Режим
+   * @param mode        Режим
    * @param inputString анализируемая строка
    * @param channel     анализируемая строка
    * @return служебный класс для замыкания
@@ -171,7 +171,7 @@ public class TestLexer<T extends Lexer> {
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное mode
    *
    * @param inputString анализируемая строка
-   * @param channel Канал
+   * @param channel     Канал
    * @return служебный класс для замыкания
    */
   public LexerAsserts assertThat(String inputString, int channel) {

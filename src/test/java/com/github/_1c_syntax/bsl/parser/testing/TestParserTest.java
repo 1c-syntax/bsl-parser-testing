@@ -24,7 +24,7 @@ package com.github._1c_syntax.bsl.parser.testing;
 import com.github._1c_syntax.bsl.parser.testing.demo.DemoEmptyParser;
 import com.github._1c_syntax.bsl.parser.testing.demo.DemoLexer;
 import com.github._1c_syntax.bsl.parser.testing.demo.DemoParser;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.IncrementalTokenStream;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -65,7 +65,7 @@ class TestParserTest {
     var testParser = spy(new TestParser<>(DemoParser.class, DemoLexer.class));
 
     var testLexer = spy(new TestLexer<>(DemoLexer.class));
-    doReturn(new CommonTokenStream(testLexer.getLexer()))
+    doReturn(new IncrementalTokenStream(testLexer.getLexer()))
       .when(testLexer).getTokensStream(DemoLexer.DEFAULT_MODE, "");
 
     doReturn(testLexer).when(testParser).getLexer();
