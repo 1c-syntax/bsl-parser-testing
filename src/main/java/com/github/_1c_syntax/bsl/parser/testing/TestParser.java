@@ -24,6 +24,8 @@ package com.github._1c_syntax.bsl.parser.testing;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
+import org.antlr.v4.runtime.IncrementalParser;
+import org.antlr.v4.runtime.IncrementalTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;
@@ -33,25 +35,27 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TestParser<P extends Parser, L extends Lexer> {
+public class TestParser<PARSER extends Parser, LEXER extends Lexer> {
 
   private final List<String> ruleNames;
 
   @Getter
-  private final TestLexer<L> lexer;
+  private final TestLexer<LEXER> lexer;
 
   @Getter
-  private final Class<P> parserClazz;
+  private final Class<PARSER> parserClazz;
 
   @Getter
-  private final Class<L> lexerClazz;
+  private final Class<LEXER> lexerClazz;
 
   @Getter
   @Accessors(fluent = true)
-  private P parser;
+  private PARSER parser;
+
+  private final boolean supportRebuild;
 
   @SneakyThrows
-  public TestParser(Class<P> parserClazz, Class<L> lexerClazz) {
+  public TestParser(Class<PARSER> parserClazz, Class<LEXER> lexerClazz) {
     this.lexer = new TestLexer<>(lexerClazz);
     this.parserClazz = parserClazz;
     this.lexerClazz = lexerClazz;
@@ -64,13 +68,15 @@ public class TestParser<P extends Parser, L extends Lexer> {
     } else {
       ruleNames = Collections.emptyList();
     }
+
+    this.supportRebuild = IncrementalParser.class.isAssignableFrom(parserClazz);
   }
 
   /**
    * Возвращает имя rule по его идентификатору (типу)
    *
-   * @param type
-   * @return
+   * @param type Тип рула
+   * @return Имя рула
    */
   public String ruleName(Integer type) {
     if (!ruleNames.isEmpty() && type < ruleNames.size()) {
@@ -87,14 +93,14 @@ public class TestParser<P extends Parser, L extends Lexer> {
    * @return служебный класс для замыкания
    */
   public ParserAsserts assertThat(String inputString) {
-    parser = createParser(L.DEFAULT_MODE, inputString);
+    parser = createParser(LEXER.DEFAULT_MODE, inputString);
     return new ParserAsserts(this, parser);
   }
 
   /**
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное channel
    *
-   * @param mode
+   * @param mode        Режим
    * @param inputString анализируемая строка
    * @return служебный класс для замыкания
    */
@@ -110,15 +116,20 @@ public class TestParser<P extends Parser, L extends Lexer> {
    * @return служебный класс для замыкания
    */
   public ParserAsserts assertThatFile(String sourcePath) {
-    parser = createParser(L.DEFAULT_MODE, ResourceUtils.byName(sourcePath));
+    parser = createParser(LEXER.DEFAULT_MODE, ResourceUtils.byName(sourcePath));
     return new ParserAsserts(this, parser);
   }
 
-  private P createParser(int mode, String inputString) {
+  private PARSER createParser(int mode, String inputString) {
     var tokenStream = getLexer().getTokensStream(mode, inputString);
     try {
-      return parserClazz.getDeclaredConstructor(TokenStream.class)
-        .newInstance(tokenStream);
+      if (supportRebuild) {
+        return parserClazz.getDeclaredConstructor(IncrementalTokenStream.class)
+          .newInstance(tokenStream);
+      } else {
+        return parserClazz.getDeclaredConstructor(TokenStream.class)
+          .newInstance(tokenStream);
+      }
     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new RuntimeException(e);
     }

@@ -49,7 +49,7 @@ public class LexerAsserts {
    * При проверке анализируются все токены всех каналов, включая служебный конца строки
    *
    * @param expectedTokens контрольный массив токенов
-   * @return
+   * @return Ассерт (для текучести)
    */
   public LexerAsserts containsExactly(Integer... expectedTokens) {
     var tokenTypes = tokens.stream()
@@ -63,7 +63,7 @@ public class LexerAsserts {
    * При проверке анализируются токены указанного в assertThat канала, исключая служебный конца строки
    *
    * @param expectedTokens контрольный массив токенов
-   * @return
+   * @return Ассерт (для текучести)
    */
   public LexerAsserts containsAll(Integer... expectedTokens) {
     var tokenTypes = tokens.stream()
@@ -79,7 +79,7 @@ public class LexerAsserts {
    *
    * @param index Порядковый индекс токена в строке
    * @param text  текст токена
-   * @return
+   * @return Ассерт (для текучести)
    */
   public LexerAsserts tokenHasText(int index, String text) {
     var token = tokens.get(index);
@@ -93,7 +93,7 @@ public class LexerAsserts {
    *
    * @param index  Порядковый индекс токена в строке
    * @param lineNo номер строки расположения токена
-   * @return
+   * @return Ассерт (для текучести)
    */
   public LexerAsserts tokenOnLine(int index, int lineNo) {
     var token = tokens.get(index);
@@ -107,7 +107,7 @@ public class LexerAsserts {
    * идентификаторов токенов (с учетом установленных mode и channel)
    *
    * @param actual строка для сравнения
-   * @return
+   * @return Ассерт (для текучести)
    */
   public LexerAsserts isEqualTo(String actual) {
     var actualTokens = lexer.getTokens(mode, actual);

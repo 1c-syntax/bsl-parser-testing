@@ -8,14 +8,14 @@ plugins {
     idea
     id("org.cadixdev.licenser") version "0.6.1"
     id("me.qoomon.git-versioning") version "6.4.4"
-    id("io.freefair.lombok") version "8.14.2"
-    id("io.freefair.javadoc-links") version "8.14.2"
-    id("io.freefair.javadoc-utf-8") version "8.14.2"
-    id("io.freefair.maven-central.validate-poms") version "8.14.2"
-    id("com.github.ben-manes.versions") version "0.52.0"
+    id("io.freefair.lombok") version "9.1.0"
+    id("io.freefair.javadoc-links") version "9.1.0"
+    id("io.freefair.javadoc-utf-8") version "9.1.0"
+    id("io.freefair.maven-central.validate-poms") version "9.1.0"
+    id("com.github.ben-manes.versions") version "0.53.0"
     id("ru.vyarus.pom") version "3.0.0"
-    id("org.jreleaser") version "1.19.0"
-    id("org.sonarqube") version "6.2.0.5505"
+    id("org.jreleaser") version "1.21.0"
+    id("org.sonarqube") version "7.1.0.6387"
     id("me.champeau.jmh") version "0.7.3"
 }
 
@@ -49,13 +49,12 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.3.1")
-    implementation("io.github.1c-syntax", "antlr4", "0.1.2")
+    implementation("io.github.1c-syntax", "antlr4", "0.2.0")
     implementation("commons-io", "commons-io", "2.15.1")
-    implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
-    implementation("org.assertj", "assertj-core", "3.25.0")
+    implementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
+    implementation("org.assertj", "assertj-core", "3.27.0")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
+    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
     testImplementation("org.mockito", "mockito-core", "5.8.0")
 }
 

@@ -26,7 +26,7 @@ import org.antlr.v4.runtime.Lexer;
 
 public class DemoLexer extends Lexer {
 
-  public DemoLexer(CharStream input, boolean dontUse) {
+  public DemoLexer(CharStream input) {
     super(input);
   }
 
