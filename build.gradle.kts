@@ -49,12 +49,12 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax", "antlr4", "0.2.0-rc.1")
+    implementation("io.github.1c-syntax", "antlr4", "0.2.0-alpha.1")
     implementation("commons-io", "commons-io", "2.15.1")
-    implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
-    implementation("org.assertj", "assertj-core", "3.25.0")
+    implementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
+    implementation("org.assertj", "assertj-core", "3.27.0")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
+    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
     testImplementation("org.mockito", "mockito-core", "5.8.0")
 }
 
