@@ -21,7 +21,6 @@
  */
 package com.github._1c_syntax.bsl.parser.testing.demo;
 
-import org.antlr.v4.parse.BlockSetTransformer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Vocabulary;
@@ -31,7 +30,8 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class DemoLexer extends Lexer {
 
-  public static final String[] tokenNames = new String[]{"token1", "token2"};;
+  public static final String[] tokenNames = new String[]{"token1", "token2"};
+  ;
   public static final Vocabulary VOCABULARY = new VocabularyImpl(new String[0], tokenNames);
 
   @Override
