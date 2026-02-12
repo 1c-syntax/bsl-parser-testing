@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2025
+ * Copyright (c) 2023-2026
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -79,7 +79,7 @@ public class ParserAsserts {
       }
 
       if (ctx.parent == null) {
-        boolean parseSuccess = testParser.getLexerClazz().cast(parser.getInputStream().getTokenSource())._hitEOF;
+        boolean parseSuccess = testParser.getLexerClazz().cast(parser.getInputStream().getTokenSource()).isHitEOF();
         if (!parseSuccess) {
           throw new RecognitionException(
             "Parse error EOF don't hit\n" + parser.getInputStream().getText(),

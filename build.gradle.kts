@@ -6,17 +6,16 @@ plugins {
     `maven-publish`
     jacoco
     idea
-    id("org.cadixdev.licenser") version "0.6.1"
+    id("cloud.rio.license") version "0.18.0"
     id("me.qoomon.git-versioning") version "6.4.4"
-    id("io.freefair.lombok") version "9.1.0"
-    id("io.freefair.javadoc-links") version "9.1.0"
-    id("io.freefair.javadoc-utf-8") version "9.1.0"
-    id("io.freefair.maven-central.validate-poms") version "9.1.0"
+    id("io.freefair.javadoc-links") version "9.2.0"
+    id("io.freefair.javadoc-utf-8") version "9.2.0"
+    id("io.freefair.lombok") version "9.2.0"
+//    id("io.freefair.maven-central.validate-poms") version "9.2.0"
     id("com.github.ben-manes.versions") version "0.53.0"
     id("ru.vyarus.pom") version "3.0.0"
     id("org.jreleaser") version "1.21.0"
     id("org.sonarqube") version "7.2.2.6593"
-    id("me.champeau.jmh") version "0.7.3"
 }
 
 repositories {
@@ -49,13 +48,13 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax", "antlr4", "0.2.0")
+    implementation("io.github.1c-syntax", "antlr4", "0.3.0-rc.2")
     implementation("commons-io", "commons-io", "2.15.1")
     implementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
     implementation("org.assertj", "assertj-core", "3.27.0")
 
     testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
-    testImplementation("org.mockito", "mockito-core", "5.8.0")
+    testImplementation("org.mockito", "mockito-core", "5.21.0")
 }
 
 tasks.withType<JavaCompile> {
@@ -98,11 +97,14 @@ tasks.jacocoTestReport {
 }
 
 license {
-    header(rootProject.file("license/HEADER.txt"))
-    newLine(false)
+    header = rootProject.file("license/HEADER.txt")
+    skipExistingHeaders = false
+    strictCheck = true
+    mapping("java", "SLASHSTAR_STYLE")
     ext["year"] = "2023-" + Calendar.getInstance().get(Calendar.YEAR)
     ext["name"] = "Valery Maximov <maximovvalery@gmail.com>"
     ext["project"] = "BSL Parser Testing"
+    include("**/*.java")
 }
 
 sonar {
