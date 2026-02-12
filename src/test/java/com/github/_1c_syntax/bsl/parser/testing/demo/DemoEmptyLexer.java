@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2025
+ * Copyright (c) 2023-2026
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -23,8 +23,25 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class DemoEmptyLexer extends Lexer {
+
+  public static final String[] ruleNames = new String[0];
+  public static final Vocabulary VOCABULARY = new VocabularyImpl(ruleNames, new String[0]);
+
+  @Override
+  public String[] getChannelNames() {
+    return new String[0];
+  }
+
+  @Override
+  public String[] getModeNames() {
+    return new String[0];
+  }
 
   public DemoEmptyLexer(CharStream input) {
     super(input);
@@ -36,7 +53,12 @@ public class DemoEmptyLexer extends Lexer {
   }
 
   @Override
+  public Vocabulary getVocabulary() {
+    return VOCABULARY;
+  }
+
+  @Override
   public String getGrammarFileName() {
-    return null;
+    return "empty";
   }
 }

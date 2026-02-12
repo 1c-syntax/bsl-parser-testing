@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2025
+ * Copyright (c) 2023-2026
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -26,23 +26,22 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.RuleVersion;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.Collections;
 import java.util.List;
 
-
+@NullMarked
 public class DemoParser extends Parser {
 
   public static final String[] ruleNames = new String[]{"rule1", "rule2"};
+  public static final Vocabulary VOCABULARY = new VocabularyImpl(ruleNames, new String[0]);
 
   public DemoParser(TokenStream input) {
     super(input);
-  }
-
-  @Override
-  public String[] getTokenNames() {
-    return new String[0];
   }
 
   @Override
@@ -51,8 +50,13 @@ public class DemoParser extends Parser {
   }
 
   @Override
+  public Vocabulary getVocabulary() {
+    return VOCABULARY;
+  }
+
+  @Override
   public String getGrammarFileName() {
-    return null;
+    return "fake";
   }
 
   @Override
@@ -75,12 +79,12 @@ public class DemoParser extends Parser {
     private final List<ParseTree> children;
 
     DemoRuleContext(int state) {
-      super(new ParserRuleContext(), state);
+      super(new ParserRuleContext(null, 1), state);
       children = Collections.emptyList();
     }
 
     DemoRuleContext(int state, DemoRuleContext... children) {
-      super(new ParserRuleContext(), state);
+      super(new ParserRuleContext(null, 1), state);
       this.children = List.of(children);
     }
 
