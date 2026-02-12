@@ -23,17 +23,18 @@ package com.github._1c_syntax.bsl.parser.testing.demo;
 
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
+import org.jspecify.annotations.NullMarked;
 
-
+@NullMarked
 public class DemoEmptyParser extends Parser {
+
+  public static final String[] ruleNames = new String[0];
+  public static final Vocabulary VOCABULARY = new VocabularyImpl(ruleNames, new String[0]);
 
   public DemoEmptyParser(TokenStream input) {
     super(input);
-  }
-
-  @Override
-  public String[] getTokenNames() {
-    return new String[0];
   }
 
   @Override
@@ -42,7 +43,12 @@ public class DemoEmptyParser extends Parser {
   }
 
   @Override
+  public Vocabulary getVocabulary() {
+    return VOCABULARY;
+  }
+
+  @Override
   public String getGrammarFileName() {
-    return null;
+    return "empty";
   }
 }

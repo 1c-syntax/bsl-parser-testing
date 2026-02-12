@@ -21,10 +21,32 @@
  */
 package com.github._1c_syntax.bsl.parser.testing.demo;
 
+import org.antlr.v4.parse.BlockSetTransformer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class DemoLexer extends Lexer {
+
+  public static final String[] tokenNames = new String[]{"token1", "token2"};;
+  public static final Vocabulary VOCABULARY = new VocabularyImpl(new String[0], tokenNames);
+
+  @Override
+  public String[] getChannelNames() {
+    return new String[0];
+  }
+
+  @Override
+  public String[] getModeNames() {
+    return new String[0];
+  }
+
+  public String[] getTokenNames() {
+    return tokenNames;
+  }
 
   public DemoLexer(CharStream input) {
     super(input);
@@ -36,12 +58,12 @@ public class DemoLexer extends Lexer {
   }
 
   @Override
-  public String[] getTokenNames() {
-    return new String[]{"token1", "token2"};
+  public Vocabulary getVocabulary() {
+    return VOCABULARY;
   }
 
   @Override
   public String getGrammarFileName() {
-    return null;
+    return "fake";
   }
 }
