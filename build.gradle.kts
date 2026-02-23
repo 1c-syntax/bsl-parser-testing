@@ -48,15 +48,17 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax", "antlr4", "0.3.0-rc.2")
-    implementation("commons-io", "commons-io", "2.15.1")
-    implementation("org.junit.jupiter", "junit-jupiter-api", "5.11.4")
-    implementation("org.assertj", "assertj-core", "3.27.0")
+    implementation("io.github.1c-syntax:antlr4:0.3.0-rc.2")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.11.4")
-    testImplementation("org.mockito", "mockito-core", "5.21.0")
+    implementation("commons-io:commons-io:2.21.0")
+    implementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
+    implementation("org.assertj:assertj-core:3.27.7")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.4")
+    testImplementation(platform("org.junit:junit-bom:6.0.3"))
+    testImplementation("org.mockito:mockito-core:5.21.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<JavaCompile> {
