@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2024
+ * Copyright (c) 2023-2026
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -36,8 +36,8 @@ public class ResourceUtils {
   /**
    * Читает файл фикстуры из тестовых ресурсов проекта
    *
-   * @param resourceName
-   * @return
+   * @param resourceName имя файла фикстуры
+   * @return Прочитанное содержимое
    */
   public String byName(@NonNull String resourceName) {
     if (resourceName.isBlank()) {

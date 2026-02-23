@@ -1,38 +1,42 @@
-import me.qoomon.gitversioning.commons.GitRefType
-import java.util.*
+import java.util.Calendar
+import org.jreleaser.model.Active.*
 
 plugins {
-    `maven-publish`
-    idea
-    jacoco
     `java-library`
-    signing
-    id("org.sonarqube") version "5.0.0.4638"
-    id("org.cadixdev.licenser") version "0.6.1"
-    id("me.qoomon.git-versioning") version "6.4.3"
-    id("io.freefair.lombok") version "8.6"
-    id("io.freefair.javadoc-links") version "8.6"
-    id("io.freefair.javadoc-utf-8") version "8.6"
-    id("com.github.ben-manes.versions") version "0.51.0"
-    id("me.champeau.jmh") version "0.7.2"
-    id("io.freefair.maven-central.validate-poms") version "8.6"
+    `maven-publish`
+    jacoco
+    idea
+    id("cloud.rio.license") version "0.18.0"
+    id("me.qoomon.git-versioning") version "6.4.4"
+    id("io.freefair.javadoc-links") version "9.2.0"
+    id("io.freefair.javadoc-utf-8") version "9.2.0"
+    id("io.freefair.lombok") version "9.2.0"
+//    id("io.freefair.maven-central.validate-poms") version "9.2.0"
+    id("com.github.ben-manes.versions") version "0.53.0"
     id("ru.vyarus.pom") version "3.0.0"
-    id("io.codearte.nexus-staging") version "0.30.0"
+    id("org.jreleaser") version "1.21.0"
+    id("org.sonarqube") version "7.2.2.6593"
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven(url = "https://jitpack.io")
 }
 
 group = "io.github.1c-syntax"
 gitVersioning.apply {
     refs {
-        considerTagsOnBranches = true
+        describeTagFirstParent = false
         tag("v(?<tagVersion>[0-9].*)") {
             version = "\${ref.tagVersion}\${dirty}"
         }
+
+        branch("develop") {
+            version = "\${describe.tag.version.major}." +
+                    "\${describe.tag.version.minor.next}.0." +
+                    "\${describe.distance}-SNAPSHOT\${dirty}"
+        }
+
         branch(".+") {
             version = "\${ref}-\${commit.short}\${dirty}"
         }
@@ -42,17 +46,19 @@ gitVersioning.apply {
         version = "\${commit.short}\${dirty}"
     }
 }
-val isSnapshot = gitVersioning.gitVersionDetails.refType != GitRefType.TAG
 
 dependencies {
-    implementation("io.github.1c-syntax", "bsl-parser-core", "0.2.0")
-    implementation("org.antlr", "antlr4", "4.13.1")
-    implementation("commons-io", "commons-io", "2.15.1")
-    implementation("org.junit.jupiter", "junit-jupiter-api", "5.10.1")
-    implementation("org.assertj", "assertj-core", "3.25.0")
+    implementation("io.github.1c-syntax:antlr4:0.3.0")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-engine", "5.10.1")
-    testImplementation("org.mockito", "mockito-core", "5.8.0")
+    implementation("commons-io:commons-io:2.21.0")
+    api("org.junit.jupiter:junit-jupiter-api:6.0.3")
+    api("org.assertj:assertj-core:3.27.7")
+
+    testImplementation(platform("org.junit:junit-bom:6.0.3"))
+    testImplementation("org.mockito:mockito-core:5.21.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<JavaCompile> {
@@ -61,14 +67,10 @@ tasks.withType<JavaCompile> {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
     withJavadocJar()
-}
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
 }
 
 tasks.test {
@@ -90,16 +92,19 @@ tasks.check {
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
-        xml.outputLocation.set(File("$buildDir/reports/jacoco/test/jacoco.xml"))
+        xml.outputLocation.set(File("${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"))
     }
 }
 
 license {
-    header(rootProject.file("license/HEADER.txt"))
-    newLine(false)
+    header = rootProject.file("license/HEADER.txt")
+    skipExistingHeaders = false
+    strictCheck = true
+    mapping("java", "SLASHSTAR_STYLE")
     ext["year"] = "2023-" + Calendar.getInstance().get(Calendar.YEAR)
     ext["name"] = "Valery Maximov <maximovvalery@gmail.com>"
     ext["project"] = "BSL Parser Testing"
+    include("**/*.java")
 }
 
 sonar {
@@ -110,7 +115,10 @@ sonar {
         property("sonar.projectKey", "1c-syntax_bsl-parser-testing")
         property("sonar.projectName", "BSL Parser Testing")
         property("sonar.scm.exclusions.disabled", "true")
-        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacoco.xml")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacoco.xml"
+        )
     }
 }
 
@@ -120,39 +128,16 @@ artifacts {
     archives(tasks["javadocJar"])
 }
 
-signing {
-    val signingInMemoryKey: String? by project      // env.ORG_GRADLE_PROJECT_signingInMemoryKey
-    val signingInMemoryPassword: String? by project // env.ORG_GRADLE_PROJECT_signingInMemoryPassword
-    if (signingInMemoryKey != null) {
-        useInMemoryPgpKeys(signingInMemoryKey, signingInMemoryPassword)
-        sign(publishing.publications)
-    }
-}
-
 publishing {
     repositories {
         maven {
-            name = "sonatype"
-            url = if (isSnapshot)
-                uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            else
-                uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-
-            val sonatypeUsername: String? by project
-            val sonatypePassword: String? by project
-
-            credentials {
-                username = sonatypeUsername // ORG_GRADLE_PROJECT_sonatypeUsername
-                password = sonatypePassword // ORG_GRADLE_PROJECT_sonatypePassword
-            }
+            name = "staging"
+            url = layout.buildDirectory.dir("staging-deploy").get().asFile.toURI()
         }
     }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
-            if (isSnapshot && project.hasProperty("simplifyVersion")) {
-                version = findProperty("git.ref.slug") as String + "-SNAPSHOT"
-            }
 
             pom {
                 description.set("Library for testing parsers for Language 1C (BSL) in ANTLR4 format.")
@@ -179,12 +164,44 @@ publishing {
                     developerConnection.set("scm:git:git@github.com:1c-syntax/bsl-parser-testing.git")
                     url.set("https://github.com/1c-syntax/bsl-parser-testing")
                 }
+                issueManagement {
+                    system.set("GitHub Issues")
+                    url.set("https://github.com/1c-syntax/bsl-parser-testing/issues")
+                }
+                ciManagement {
+                    system.set("GitHub Actions")
+                    url.set("https://github.com/1c-syntax/bsl-parser-testing/actions")
+                }
             }
         }
     }
 }
 
-nexusStaging {
-    serverUrl = "https://s01.oss.sonatype.org/service/local/"
-    stagingProfileId = "15bd88b4d17915" // ./gradlew getStagingProfile
+jreleaser {
+    signing {
+        active = ALWAYS
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                create("release-deploy") {
+                    active = RELEASE
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    stagingRepository("build/staging-deploy")
+                }
+            }
+            nexus2 {
+                create("snapshot-deploy") {
+                    active = SNAPSHOT
+                    snapshotUrl = "https://central.sonatype.com/repository/maven-snapshots/"
+                    applyMavenCentralRules = true
+                    snapshotSupported = true
+                    closeRepository = true
+                    releaseRepository = true
+                    stagingRepository("build/staging-deploy")
+                }
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * This file is a part of BSL Parser Testing.
  *
- * Copyright (c) 2023-2024
+ * Copyright (c) 2023-2026
  * 1c-syntax team and Valery Maximov <maximovvalery@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -21,15 +21,15 @@
  */
 package com.github._1c_syntax.bsl.parser.testing;
 
-import com.github._1c_syntax.bsl.parser.UnicodeBOMInputStream;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ConsoleErrorListener;
+import org.antlr.v4.runtime.IncrementalTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.UnicodeBOMInputStream;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -71,9 +71,9 @@ public class TestLexer<T extends Lexer> {
   /**
    * Возвращает список токенов в переданной строке
    *
-   * @param mode
-   * @param inputString
-   * @return
+   * @param mode        Режим
+   * @param inputString Входная строка
+   * @return Токены в строке
    */
   public List<Token> getTokens(int mode, String inputString) {
     return getTokensStream(mode, inputString).getTokens();
@@ -82,11 +82,11 @@ public class TestLexer<T extends Lexer> {
   /**
    * Возвращает токены переданной строки
    *
-   * @param mode
-   * @param inputString
-   * @return
+   * @param mode        Режим
+   * @param inputString Входная строка
+   * @return Токены в строке
    */
-  public CommonTokenStream getTokensStream(int mode, String inputString) {
+  public IncrementalTokenStream getTokensStream(int mode, String inputString) {
     CharStream input;
 
     try (
@@ -104,7 +104,7 @@ public class TestLexer<T extends Lexer> {
     lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
     lexer.pushMode(mode);
 
-    var tempTokenStream = new CommonTokenStream(lexer);
+    var tempTokenStream = new IncrementalTokenStream(lexer);
     tempTokenStream.fill();
 
     return tempTokenStream;
@@ -114,7 +114,7 @@ public class TestLexer<T extends Lexer> {
    * Формирует строку с именами токенов на основании переданного массива их идентификаторов
    *
    * @param tokenTypes массив идентификаторов (типов) токенов
-   * @return
+   * @return Имя токена
    */
   public String tokenName(Integer[] tokenTypes) {
     return Arrays.stream(tokenTypes).map(this::tokenName).collect(Collectors.joining(", "));
@@ -123,8 +123,8 @@ public class TestLexer<T extends Lexer> {
   /**
    * Возвращает имя токена по его идентификатору (типу)
    *
-   * @param type
-   * @return
+   * @param type Идентификатор токена
+   * @return Имя токена
    */
   public String tokenName(Integer type) {
     if (!ruleNames.isEmpty() && type < ruleNames.size()) {
@@ -147,7 +147,7 @@ public class TestLexer<T extends Lexer> {
   /**
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное channel
    *
-   * @param mode
+   * @param mode        Режим
    * @param inputString анализируемая строка
    * @return служебный класс для замыкания
    */
@@ -158,7 +158,7 @@ public class TestLexer<T extends Lexer> {
   /**
    * Настраивает и запоминает тестируемый контекст
    *
-   * @param mode
+   * @param mode        Режим
    * @param inputString анализируемая строка
    * @param channel     анализируемая строка
    * @return служебный класс для замыкания
@@ -171,7 +171,7 @@ public class TestLexer<T extends Lexer> {
    * Настраивает и запоминает тестируемый контекст. Использует дефолтное mode
    *
    * @param inputString анализируемая строка
-   * @param channel
+   * @param channel     Канал
    * @return служебный класс для замыкания
    */
   public LexerAsserts assertThat(String inputString, int channel) {
@@ -180,8 +180,8 @@ public class TestLexer<T extends Lexer> {
 
   private T createLexer(Class<T> lexerClass) {
     try {
-      return lexerClass.getDeclaredConstructor(CharStream.class, boolean.class)
-        .newInstance(CharStreams.fromString(""), true);
+      return lexerClass.getDeclaredConstructor(CharStream.class)
+        .newInstance(CharStreams.fromString(""));
     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
