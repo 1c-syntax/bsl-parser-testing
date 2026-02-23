@@ -48,7 +48,7 @@ gitVersioning.apply {
 }
 
 dependencies {
-    implementation("io.github.1c-syntax:antlr4:0.3.0-rc.2")
+    implementation("io.github.1c-syntax:antlr4:0.3.0")
 
     implementation("commons-io:commons-io:2.21.0")
     implementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
@@ -67,8 +67,8 @@ tasks.withType<JavaCompile> {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
     withJavadocJar()
 }
