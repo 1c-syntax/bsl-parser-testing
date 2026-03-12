@@ -55,7 +55,7 @@ dependencies {
     api("org.assertj:assertj-core:3.27.7")
 
     testImplementation(platform("org.junit:junit-bom:6.0.3"))
-    testImplementation("org.mockito:mockito-core:5.21.0")
+    testImplementation("org.mockito:mockito-core:5.23.0")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
