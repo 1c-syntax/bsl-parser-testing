@@ -50,7 +50,7 @@ gitVersioning.apply {
 dependencies {
     implementation("io.github.1c-syntax:antlr4:0.3.0")
 
-    implementation("commons-io:commons-io:2.21.0")
+    implementation("commons-io:commons-io:2.22.0")
     api("org.junit.jupiter:junit-jupiter-api:6.0.3")
     api("org.assertj:assertj-core:3.27.7")
 
